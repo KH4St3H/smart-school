@@ -1,0 +1,60 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Site Metas -->
+    <title>{% trans "Smart School System" %}</title>
+    <meta name="description" content="manage the school smartly">
+    <meta name="author" content="Mehrshad Firouzian">
+
+    <!-- CSS classes -->
+    <link rel="stylesheet" href="{% static 'dest/css/w3.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background:#e6e6e6;color:black;">
+    <div class="w3-container">
+        <div class="w3-bar w3-light-grey">
+            <a class="w3-bar-item w3-button w3-mobile w3-green" href="javascript:void(0)">{% trans 'Home' %}</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Attendance' %}</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Photocopy & Print' %}</a>
+            <div class="w3-dropdown-hover w3-mobile">
+                <a class="w3-button" href="javascript:void(0)">{% trans 'Students' %} <i
+                        class="fa fa-caret-down"></i></a>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Report score' %}</a>
+                    <a class="w3-bar-item w3-button w3-mobile"
+                        href="javascript:void(0)">{% trans 'Report indiscipline' %}</a>
+                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Issue comment' %}</a>
+                </div>
+            </div>
+            <div class="w3-dropdown-hover w3-mobile">
+                <a class="w3-button" href="javascript:void(0)">{% trans 'Examination' %} <i
+                        class="fa fa-caret-down"></i></a>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Set exam' %}</a>
+                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Postpone exam' %}</a>
+                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Cancel exam' %}</a>
+                </div>
+            </div>
+            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Blog' %}</a>
+
+        </div>
+        
+        {% block content %}
+            
+        {% endblock content %}
+            
+    </div>
+</body>
+
+</html>

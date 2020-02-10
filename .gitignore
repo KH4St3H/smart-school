@@ -11,3 +11,6 @@ db.sqlite3-journal
 
 # Environment
 env/
+
+# Pycharm
+.idea/
