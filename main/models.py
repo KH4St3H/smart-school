@@ -118,9 +118,6 @@ class ClassLesson(models.Model):
         if not tt:
             return None
         prev_time = list(tt)[-1]
-        print(self.time)
-        print(prev_time)
-        print(self.related_class)
         prev_class = ClassLesson.objects.filter(time=prev_time, related_class=self.related_class)
         return prev_class
 
