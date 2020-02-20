@@ -62,7 +62,10 @@ function submit(student_count) {
         data: {csrfmiddlewaretoken: getCookie('csrftoken'), states:states},
         url: "/attendance/",
         success: function(msg){
-            alert("ok");
+            $("#took-attendance").css({display: 'block'});
+            setTimeout(function () {
+                $("#took-attendance").fadeOut();
+            }, 5000)
         }
     });
 }

@@ -45,19 +45,22 @@ def attendance(request):
             return render(request, 'main/attendance.htm', {'class': False, 'states': False})
 
     elif request.method=='POST':
-        print(request.POST)
-        print(request.POST.getlist('states[]'))
         current_class = request.user.teacher.has_class()
         prev_attendence = StudentPrecense.objects.filter(class_lesson=current_class, date=datetime.date.today())
-        if prev_attendence:
-            pass
-        else:
-            i = 0
-            for student in current_class.related_class.student_set.all():
-                presence = True if request.POST.getlist('states[]')[i]=='true' else False
+        i = 0
+        for student in current_class.related_class.student_set.all():
+            presence = True if request.POST.getlist('states[]')[i]=='true' else False
+            i+=1
+            if prev_attendence:
+                obj = prev_attendence.filter(student=student)[0]
+                if obj.present==presence:
+                    continue
+                else:
+                    obj.present = presence
+                    obj.save()
+            else:
                 obj = StudentPrecense(student=student, present=presence, class_lesson=current_class, date=datetime.date.today())
                 obj.save()
-                i+=1
         return HttpResponse('ok')
 
 
