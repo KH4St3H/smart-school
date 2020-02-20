@@ -25,7 +25,7 @@ SECRET_KEY = '8%z0$=ewd5m31$7ikhl6fjf41%=mrprjat0q!c-@p737qsqn4z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost', '192.168.1.2']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost', '192.168.1.2', '192.168.1.112']
 
 
 # Application definition
@@ -67,7 +67,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'smart_school.wsgi.application'
 
 
@@ -120,3 +119,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media/'

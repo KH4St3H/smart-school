@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Site Metas -->
-    <title>{% trans "Smart School System" %}</title>
+    <title>Smart School System</title>
     <meta name="description" content="manage the school smartly">
     <meta name="author" content="Mehrshad Firouzian">
 
@@ -24,37 +24,70 @@
 <body style="background:#e6e6e6;color:black;">
     <div class="w3-container">
         <div class="w3-bar w3-light-grey">
-            <a class="w3-bar-item w3-button w3-mobile w3-green" href="javascript:void(0)">{% trans 'Home' %}</a>
-            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Attendance' %}</a>
-            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Photocopy & Print' %}</a>
+            {% block nav_home %}
+                <a class="w3-bar-item w3-button w3-mobile" href="/">Home</a>
+            {% endblock nav_home %}
+
+            {% block nav_attendance %}
+                <a class="w3-bar-item w3-button w3-mobile" href="/attendance">Attendance</a>
+            {% endblock nav_attendance %}
+
+            {% block nav_copy %}
+                <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0);">Photocopy & Print</a>
+            {% endblock nav_copy %}
             <div class="w3-dropdown-hover w3-mobile">
-                <a class="w3-button" href="javascript:void(0)">{% trans 'Students' %} <i
+                <a class="w3-button" href="javascript:void(0);">Students <i
                         class="fa fa-caret-down"></i></a>
                 <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Report score' %}</a>
-                    <a class="w3-bar-item w3-button w3-mobile"
-                        href="javascript:void(0)">{% trans 'Report indiscipline' %}</a>
-                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Issue comment' %}</a>
+                    {% block nav_student_report_score %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Report score</a>
+                    {% endblock nav_student_report_score %}
+
+                    {% block nav_student_report_indiscipline %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Report indiscipline</a>
+                    {% endblock nav_student_report_indiscipline %}
+
+                    {% block nav_student_issue_comment %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Issue comment</a>
+                    {% endblock nav_student_issue_comment %}
                 </div>
             </div>
             <div class="w3-dropdown-hover w3-mobile">
-                <a class="w3-button" href="javascript:void(0)">{% trans 'Examination' %} <i
+                <a class="w3-button" href="javascript:void(0);">Examination <i
                         class="fa fa-caret-down"></i></a>
                 <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Set exam' %}</a>
-                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Postpone exam' %}</a>
-                    <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Cancel exam' %}</a>
+                    {% block nav_examination_set_exam %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Set exam</a>
+                    {% endblock nav_examination_set_exam %}
+
+                    {% block nav_examination_postpone_exam %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Postpone exam</a>
+                    {% endblock nav_examination_postpone_exam %}
+
+                    {% block nav_examination_cancel_exam %}
+                        <a class="w3-bar-item w3-button w3-mobile"
+                           href="javascript:void(0);">Cancel exam</a>
+                    {% endblock nav_examination_cancel_exam %}
                 </div>
             </div>
-            <a class="w3-bar-item w3-button w3-mobile" href="javascript:void(0)">{% trans 'Blog' %}</a>
+            <a class="w3-bar-item w3-button w3-mobile {% block nav_blog %}{% endblock nav_blog %}"
+               href="javascript:void(0);">Blog</a>
 
         </div>
         
         {% block content %}
             
         {% endblock content %}
-            
     </div>
+
+    <!-- Js scripts -->
+    <script src="{% static "custom/js/custom.js" %}"></script>
+
 </body>
 
 </html>
