@@ -19,7 +19,12 @@
             </div>
             <div class="w3-row w3-center">
                 <div class="w3-col m12 w3-center">
-                    <button class="w3-btn w3-green w3-mobile">Mark everyone as present</button>
+                    <div class="w3-show-inline-block">
+                        <div class="w3-bar">
+                            <button class="w3-button w3-pale-green w3-mobile">Submit</button>
+                            <button class="w3-button w3-pale-green w3-mobile" onclick="select_all({{ class.student_set.all|length }});">Mark everyone as present</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,3 +60,9 @@
     <script src="{% static "custom/js/custom.js" %}"></script>
 
 {% endblock content %}
+
+{% block nav_addition %}
+<a href="/profile" class="w3-right w3-bar-item w3-mobile w3-button">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-user-cog"></i></a>
+<!-- <p class="w3-bar-item w3-button w3-mobile w3-right w3-btn"> {{ user.first_name }} {{ user.last_name }} <i class="material-icon">person</i></p> -->
+{% endblock nav_addition %}
+    
