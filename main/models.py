@@ -78,9 +78,6 @@ class Teacher(models.Model):
         current = datetime.now().time()
         first = datetime.now() - timedelta(hours=1, minutes=30)
         first = first.time()
-        print(weekday)
-        print(current)
-        print(first)
         timetable = TimeTable.objects.filter(weekday=weekday, start_time__range=(first, current))
         if timetable:
             timetable = timetable[0]
@@ -88,7 +85,7 @@ class Teacher(models.Model):
             return False
         _class = timetable.classlesson_set.filter(teacher=self)
         if _class:
-            return _class[0].related_class
+            return _class[0]
         return False
 
 
@@ -115,5 +112,24 @@ class ClassLesson(models.Model):
     time = models.ForeignKey(TimeTable, on_delete=models.CASCADE)
     related_class = models.ForeignKey(Class, on_delete=models.CASCADE)
 
+    def has_previous_class(self):
+        tt = TimeTable.objects.filter(start_time__lte=self.time.start_time, weekday=self.time.weekday).order_by('-start_time')
+        tt = tt.exclude(start_time=self.time.start_time)
+        if not tt:
+            return None
+        prev_time = list(tt)[-1]
+        print(self.time)
+        print(prev_time)
+        print(self.related_class)
+        prev_class = ClassLesson.objects.filter(time=prev_time, related_class=self.related_class)
+        return prev_class
+
     def __str__(self):
         return self.related_class.name + ' ' + self.lesson.subject.name
+
+
+class StudentPrecense(models.Model):
+    student = models.OneToOneField(Student, models.CASCADE)
+    present = models.BooleanField(default=True)
+    class_lesson = models.ForeignKey(ClassLesson, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True)

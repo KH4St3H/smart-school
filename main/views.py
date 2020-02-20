@@ -1,7 +1,11 @@
-from django.shortcuts import render, Http404, reverse, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import login_required
-from django.contrib.auth import login, logout, authenticate
-from .models import Student, Teacher
+from django.shortcuts import Http404, redirect, render, reverse, HttpResponse
+
+from .models import (Class, ClassLesson, Student,
+                     StudentPrecense, Teacher)
+
+import datetime
 
 
 def teacher_only(func):
@@ -20,7 +24,41 @@ def index(request):
 @login_required
 @teacher_only
 def attendance(request):
-    return render(request, 'main/attendance.htm', {'class': request.user.teacher.has_class()})
+    if request.method=='GET':
+        current_class = request.user.teacher.has_class()
+        if current_class:
+            prev_attendence = StudentPrecense.objects.filter(class_lesson=current_class, date=datetime.date.today())
+            if prev_attendence:
+                states = prev_attendence
+            else:
+                prev_class = current_class.has_previous_class()
+                if prev_class:
+                    attendance_list = StudentPrecense.objects.filter(class_lesson=prev_class[0], date=datetime.date.today())
+                    if attendance_list:
+                        states = attendance_list
+                    else:
+                        states = False
+                else:
+                    states = False
+            return render(request, 'main/attendance.htm', {'class': current_class.related_class, 'states': states})
+        else:
+            return render(request, 'main/attendance.htm', {'class': False, 'states': False})
+
+    elif request.method=='POST':
+        print(request.POST)
+        print(request.POST.getlist('states[]'))
+        current_class = request.user.teacher.has_class()
+        prev_attendence = StudentPrecense.objects.filter(class_lesson=current_class, date=datetime.date.today())
+        if prev_attendence:
+            pass
+        else:
+            i = 0
+            for student in current_class.related_class.student_set.all():
+                presence = True if request.POST.getlist('states[]')[i]=='true' else False
+                obj = StudentPrecense(student=student, present=presence, class_lesson=current_class, date=datetime.date.today())
+                obj.save()
+                i+=1
+        return HttpResponse('ok')
 
 
 def login_view(request):

@@ -21,9 +21,48 @@ $(document).ready(function () {
     });
 });
 
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function select_all(student_count) {
     // alert(student_count);
     for (i = 1; i<student_count+1; i++){
         $("#"+i.toString()+"p").click();
     }
+}
+
+function submit(student_count) {
+    var states = [];
+    for (i = 1; i<student_count+1; i++){
+        if ($("#"+i.toString()).hasClass("w3-green")){
+            states.push(true);
+        }
+        else if($("#"+i.toString()).hasClass("w3-red")){
+            states.push(false);
+        }
+        else{
+            return false;
+        }
+    }
+    $.ajax({
+        type: "POST",
+        data: {csrfmiddlewaretoken: getCookie('csrftoken'), states:states},
+        url: "/attendance/",
+        success: function(msg){
+            alert("ok");
+        }
+    });
 }
