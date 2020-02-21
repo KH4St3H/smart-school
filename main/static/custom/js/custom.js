@@ -6,14 +6,12 @@ $(document).ready(function () {
             $("#"+id.slice(0, -1)).removeClass("w3-dark-gray");
             $("#"+id.slice(0, -1)).removeClass("w3-red");
             $("#"+id.slice(0, -1)).addClass('w3-green');
-            // $("#"+id.slice(0, -1)).addClass('w3-light-green');
             $("#"+id.slice(0, -1)+"a").prop('disabled', false);
         }else if(id.slice(-1)==='a'){
             $("#"+this.id).prop('disabled', true);
             $("#"+id.slice(0, -1)).removeClass("w3-dark-gray");
             $("#"+id.slice(0, -1)).removeClass("w3-green");
             $("#"+id.slice(0, -1)).addClass('w3-red');
-            // $("#"+id.slice(0, -1)).addClass('w3-light-green');
             $("#"+id.slice(0, -1)+"p").prop('disabled', false);
         }else{
             return true;
@@ -22,11 +20,11 @@ $(document).ready(function () {
 });
 
 function getCookie(name) {
-    var cookieValue = null;
+    let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -39,14 +37,14 @@ function getCookie(name) {
 
 function select_all(student_count) {
     // alert(student_count);
-    for (i = 1; i<student_count+1; i++){
+    for (let i = 1; i<student_count+1; i++){
         $("#"+i.toString()+"p").click();
     }
 }
 
 function submit(student_count) {
-    var states = [];
-    for (i = 1; i<student_count+1; i++){
+    let states = [];
+    for ( let i = 1; i<student_count+1; i++){
         if ($("#"+i.toString()).hasClass("w3-green")){
             states.push(true);
         }
@@ -61,8 +59,8 @@ function submit(student_count) {
         type: "POST",
         data: {csrfmiddlewaretoken: getCookie('csrftoken'), states:states},
         url: "/attendance/",
-        success: function(msg){
-            $("#took-attendance").css({display: 'block'});
+        success: function(){
+            $("#took-attendance").fadeIn();
             setTimeout(function () {
                 $("#took-attendance").fadeOut();
             }, 5000)
