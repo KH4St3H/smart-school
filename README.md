@@ -1,4 +1,5 @@
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django) ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/mehrfirouzian/smart-school/django)
+
 # smart-school
 A django-based project for helping school staff to manage daily school activities
 
