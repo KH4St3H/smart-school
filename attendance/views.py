@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, Http404
+from django.shortcuts import render, HttpResponse, Http404, HttpResponseRedirect, reverse
 from django.contrib.auth.views import login_required
 
 from .models import StudentPresence
@@ -12,6 +12,8 @@ def teacher_only(func):
         user = request.user
         if Teacher.objects.filter(user=user):
             return func(request)
+        elif request.user.is_superuser:   # redirecting to another function if the user is superuser or basically
+            return view_absents(request)    # school staff, principle or etc.
         return Http404()
     return wrapper
 
@@ -36,7 +38,8 @@ def attendance(request):
                         states = False
                 else:
                     states = False
-            return render(request, 'attendance/attendance.htm', {'class': current_class.related_class, 'states': states})
+            return render(request, 'attendance/attendance.htm', {'class': current_class.related_class,
+                                                                 'states': states})
         else:
             return render(request, 'attendance/attendance.htm', {'class': False, 'states': False})
 
@@ -57,3 +60,7 @@ def attendance(request):
                                       date=datetime.date.today())
                 obj.save()
         return HttpResponse('ok')
+
+
+def view_absents(request):
+    return HttpResponseRedirect(reverse('management:show-absents'))
