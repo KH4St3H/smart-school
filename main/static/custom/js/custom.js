@@ -67,3 +67,38 @@ function submit(student_count) {
         }
     });
 }
+
+function ask_for_previous_attendance(){
+    if ($("#states").length) {
+        Swal.fire({
+            title: 'The is an attendance available',
+            text: "Would you like it to reload it?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'no',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    'Previous attendance loaded!',
+                    'Enjoy the technology!',
+                    'success'
+                );
+                $("#states").fadeIn();
+            }else{
+                Swal.fire(
+                    'Previous was ignored',
+                    'Start the roll call',
+                    'success'
+                );
+                $("#class").fadeIn();
+            }
+        });
+    }else{
+        if($('#class').length){
+            $("#class").fadeIn();
+        }
+    }
+}

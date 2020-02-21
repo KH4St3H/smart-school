@@ -35,7 +35,7 @@
         <div class="w3-container">
             <div class="w3-row">
                 <div class="w3-col m12">
-                    {% if not states %}
+                    <div id="class" style="display: none">
                         {% for student in class.student_set.all %}
                             {% cycle '<div class="w3-row-padding">' '' '' %}
                                 <div class="w3-col m3">
@@ -55,8 +55,10 @@
                                 {% else %}
                             {% cycle '' '' '</div>' %}
                                 {% endif %}
-                            {% endfor %}
-                        {% else %}
+                        {% endfor %}
+                    </div>
+                    {% if states %}
+                        <div style="display: none;" id="states">
                         {% for student in states.all %}
                             {% cycle '<div class="w3-row-padding">' '' '' %}
                                 <div class="w3-col m3">
@@ -76,18 +78,19 @@
                                 {% else %}
                             {% cycle '' '' '</div>' %}
                                 {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
-            <script src="{% static "dest/js/jquery-3.4.1.min.js" %}"></script>
-            <script src="{% static "custom/js/custom.js" %}"></script>
-
+        </div>
+    {% endif %}
+    <script src="{% static "dest/js/jquery-3.4.1.min.js" %}"></script>
+    <script src="{% static "dest/js/sweetalert2.all.min.js" %}"></script>
+    <script src="{% static "custom/js/custom.js" %}"></script>
+    <script>ask_for_previous_attendance();</script> {# ask the teacher wether he likes to recover the previous attendance or not #}
 {% endblock content %}
 
 {% block nav_addition %}
 <a href="/profile" class="w3-right w3-bar-item w3-mobile w3-button">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-user-cog"></i></a>
-<!-- <p class="w3-bar-item w3-button w3-mobile w3-right w3-btn"> {{ user.first_name }} {{ user.last_name }} <i class="material-icon">person</i></p> -->
 {% endblock nav_addition %}
