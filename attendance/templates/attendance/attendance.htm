@@ -1,0 +1,93 @@
+{% extends 'main/base.htm' %}
+{% load static %}
+
+{% block nav_attendance %}
+    <a class="w3-bar-item w3-button w3-mobile w3-green" href="javascript:void(0);">Attendance</a>
+{% endblock %}
+
+{% block content %}
+    {% if not class %}
+        <div class="w3-panel w3-pale-green w3-leftbar w3-rightbar w3-border-green w3-center">
+            <p>No class currently available for you.</p>
+        </div>
+    {% else %}
+        <div id="took-attendance" class="w3-container w3-blue" style="display: none;">
+            <h3>Attendance has been taken</h3>
+            <p>You'll be able to modify it by the end of the class</p>
+        </div>
+        <div class="w3-panel w3-pale-green w3-leftbar w3-rightbar w3-border-green w3-center">
+            <div class="w3-row w3-center">
+                <div class="w3-col m12 w3-center">
+                    <h2>Attendance for class {{ class.name }}</h2>
+                </div>
+            </div>
+            <div class="w3-row w3-center">
+                <div class="w3-col m12 w3-center">
+                    <div class="w3-show-inline-block">
+                        <div class="w3-bar">
+                            <button class="w3-button w3-pale-green w3-mobile" onclick="submit({{ class.student_set.all|length }});">Submit</button>
+                            <button class="w3-button w3-pale-green w3-mobile" onclick="select_all({{ class.student_set.all|length }});">Mark everyone as present</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-container">
+            <div class="w3-row">
+                <div class="w3-col m12">
+                    {% if not states %}
+                        {% for student in class.student_set.all %}
+                            {% cycle '<div class="w3-row-padding">' '' '' %}
+                                <div class="w3-col m3">
+                                    <div class="w3-container w3-panel w3-center w3-card-4 w3-dark-gray" id="{{ forloop.counter }}">
+                                        <h5>{{ student.user.first_name }} {{ student.user.last_name }}</h5>
+                                        <img src="{{ student.profile_photo.url }}" alt="Avatar" style="width:80%">
+
+                                        <div class="w3-section">
+                                            <button class="w3-button w3-green w3-panel" id="{{ forloop.counter }}p">Present</button>
+                                            <button class="w3-button w3-red w3-panel" id="{{ forloop.counter }}a">Absent</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if forloop.last %}
+                            </div>
+                                {% else %}
+                            {% cycle '' '' '</div>' %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        {% for student in states.all %}
+                            {% cycle '<div class="w3-row-padding">' '' '' %}
+                                <div class="w3-col m3">
+                                    <div class="w3-container w3-panel w3-center w3-card-4 {% if student.present %}w3-green{% else %}w3-red{% endif %}" id="{{ forloop.counter }}">
+                                        <h5>{{ student.student.user.first_name }} {{ student.student.user.last_name }}</h5>
+                                        <img src="{{ student.student.profile_photo.url }}" alt="Avatar" style="width:80%">
+
+                                        <div class="w3-section">
+                                            <button class="w3-button w3-green w3-panel" {% if student.present %}disabled{% endif %} id="{{ forloop.counter }}p">Present</button>
+                                            <button class="w3-button w3-red w3-panel" id="{{ forloop.counter }}a" {% if not student.present %}disabled{% endif %}>Absent</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if forloop.last %}
+                            </div>
+                                {% else %}
+                            {% cycle '' '' '</div>' %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <script src="{% static "dest/js/jquery-3.4.1.min.js" %}"></script>
+            <script src="{% static "custom/js/custom.js" %}"></script>
+
+{% endblock content %}
+
+{% block nav_addition %}
+<a href="/profile" class="w3-right w3-bar-item w3-mobile w3-button">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-user-cog"></i></a>
+<!-- <p class="w3-bar-item w3-button w3-mobile w3-right w3-btn"> {{ user.first_name }} {{ user.last_name }} <i class="material-icon">person</i></p> -->
+{% endblock nav_addition %}
