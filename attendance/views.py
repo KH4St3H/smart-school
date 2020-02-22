@@ -1,10 +1,37 @@
 from django.shortcuts import render, HttpResponse, Http404, HttpResponseRedirect, reverse
 from django.contrib.auth.views import login_required
 
+# rest test
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+from rest_framework import viewsets, status, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+# end rest test
+
 from .models import StudentPresence
-from main.models import Teacher
+from main.models import Teacher, Student
 
 import datetime
+
+
+class IsTeacher(permissions.BasePermission):
+    def has_permission(self, request, view):
+        teacher = Teacher.objects.filter(user=request.user)
+        if not teacher:
+            return False
+        return True
+
+
+class CurrentClassStudentsList(APIView):
+    def post(self, request, format=None):
+        current_class = request.user.teacher.has_class()
+        if not current_class:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        current_class_students = [i.user for i in Student.objects.filter(reference_class=current_class.related_class)]
+        serializer = UserSerializer(current_class_students, many=True)
+        return Response(serializer.data)
 
 
 def teacher_only(func):
@@ -16,6 +43,17 @@ def teacher_only(func):
             return view_absents(request)    # school staff, principle or etc.
         return Http404()
     return wrapper
+
+
+@api_view(['POST'])
+def current_class_students_list(request):
+    tracher = Teacher.objects.get(user=request.user)
+    current_class = Teacher.objects.get(user=request.user).has_class()
+    if not current_class:
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    current_class_students = Student.objects.filter(reference_class=current_class.related_class)
+    serializer = UserSerializer(current_class_students, many=True)
+    return Response(serializer.data)
 
 
 @login_required

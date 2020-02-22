@@ -18,9 +18,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+# REST Framework
+from attendance.views import CurrentClassStudentsList
+
+
 urlpatterns = [
     path('', include('main.urls')),
     path('attendance/', include('attendance.urls')),
     path('management/', include('management.urls', namespace='management')),
     path('admin/', admin.site.urls),
+    path('api/v1/students/', CurrentClassStudentsList.as_view())
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'main',
     'attendance',
     'management',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,15 @@ STATIC_ROOT = 'static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
+
+
+# REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
+}
