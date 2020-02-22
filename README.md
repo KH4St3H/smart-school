@@ -10,3 +10,4 @@ A django-based project for helping school staff to manage daily school activitie
     - Load the attendance for previous lesson of the class.
       - System asks the teacher whether he/she is interested in doing that or not.
     - Teacher is able to change students' presence state until the end of the class. (Teacher can recover the previous attendance result.)
+    - Serving students' names over API. ( Can be used for mobile application )
