@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 django = "==3.0.3"
 pillow = "==7.0.0"
-djangorestframework = "==3.11.0"
+djangorestframework = "==3.11.2"
 
 [requires]
 python_version = "3.7"
